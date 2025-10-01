@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>IC10OCD</Name>
+  <Author>Vespinian</Author>
+  <Version>1.0.0</Version>
+  <!-- Steam description using steam styling tags for Steam workshop page -->
+  <Description>[h1]IC10OCD[/h1]
+    This is a Plugin Mod. 
+	  It requires Bepinex to be installed with the StationeersLaunchPad plugin.
+	  See: https://github.com/StationeersLaunchPad/StationeersLaunchPad 
+	  [img]https://i.imgur.com/c3qYm69.png[/img]
+
+        This mod runs a Httplistener along side the game providing a few endpoints to retrive information on the ic10 chips present in the game.
+        
+        GET endpoints:
+        "list-chips"
+        "chip-info/{refid}":
+        "chip-dump/{refid}":
+        "chip-code/{refid}":
+        "chip-network-device-list/{refid}":
+        "chip-mem/{refid}/{register | stack}/{addr}":
+
+        POST endpoints:
+        "chip-dump/{refid}"
+        "chip-code/{refid}"
+        "toggle-chip-power/{refid}"
+        "chip-mem/{refid}/{register | stack}/{addr}"
+
+        [b]Schemas:[/b]
+        chip-info
+        {
+            string name;
+            string refid;
+            string holder_name;
+            string holder_refid;
+            string compileErrorLineNumber;
+            string compileErrorType;
+            bool on;
+        }
+
+        network-device-info
+        {
+            string name;
+            string refid;
+            string uplink;
+        }
+
+        chip-code
+        {
+            string code;
+        }
+
+        chip-dump
+        {
+            number[] registers;
+            number[] stack;
+            number? lineNumber;
+        }
+
+        chip-mem-value 
+        {
+            number value;
+        }
+
+    GitHub: https://github.com/vespinian/ic10ocd
+  </Description>
+  <!-- Ingame Description using TMP tags for Workshop menu -->
+  <InGameDescription>
+    <![CDATA[<size="30"><color=#ffa500> IC10Sync </color></size>
+<color=#ff0000>This is a Plugin Mod. It requires Bepinex to be installed with the StationeersLaunchPad plugin.</color>
+See: https://github.com/StationeersLaunchPad/StationeersLaunchPad
+This mod runs a Httplistener along side the game providing a few endpoints to retrive information on the ic10 chips present in the game.
+GET endpoints:
+"list-chips"
+"chip-info/{refid}":
+"chip-dump/{refid}":
+"chip-code/{refid}":
+"chip-network-device-list/{refid}":
+"chip-mem/{refid}/{register | stack}/{addr}":
+POST endpoints:
+"chip-dump/{refid}"
+"chip-code/{refid}"
+"toggle-chip-power/{refid}"
+"chip-mem/{refid}/{register | stack}/{addr}"
+]]>
+  </InGameDescription>
+  <!-- All contents of ChangeLog should be changed for each publication for Steam workshop page -->
+  <ChangeLog>
+    [h3]Version 1.0.0[/h3]
+    [list]
+    [*]Initial release
+    [/list]
+  </ChangeLog>
+  <!-- StationeersMods and BepInEx tags for Steam workshop page will be automatically added by the framework when publishing -->
+  <Tags>
+	   <Tag>StationeersLaunchPad</Tag>
+	</Tags>
+  <!-- Automatic downloads of dependencies -->
+  <Dependencies />
+  <!-- Automatic reordering of the mods list -->
+  <LoadBefore />
+  <LoadAfter />
+  <WorkshopHandle></WorkshopHandle>
+</ModMetadata>
