@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>IC10OCD</AssemblyName>
+        <TargetFramework>net48</TargetFramework>
+        <RootNamespace>IC10OCD</RootNamespace>
+        <GameDir>/mnt/sofia/SteamLibrary/steamapps/common/Stationeers/</GameDir>
+<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    </PropertyGroup>
+    <Import Project="$(ProjectDir)IC10OCD.VS.props" />
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>$(GameDir)\rocketstation_Data\Managed\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx">
+            <HintPath>$(GameDir)\BepInEx\core\BepInEx.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx.Harmony">
+            <HintPath>$(GameDir)\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>$(GameDir)\rocketstation_Data\Managed\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(GameDir)\rocketstation_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+            <HintPath>$(GameDir)\rocketstation_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+        </Reference>
+
+        <Reference Include="StationeersMods.Interface">
+            <HintPath>$(StationeersDirectory)\BepInEx\plugins\StationeersLaunchPad\StationeersMods.Interface.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+
+        <Reference Include="0Harmony">
+            <HintPath>$(GameDir)\BepInEx\core\0Harmony.dll</HintPath>
+        </Reference>
+
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+</Project>
