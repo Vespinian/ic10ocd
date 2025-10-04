@@ -100,5 +100,5 @@ POST endpoints:
   <!-- Automatic reordering of the mods list -->
   <LoadBefore />
   <LoadAfter />
-  <WorkshopHandle></WorkshopHandle>
+  <!-- <WorkshopHandle></WorkshopHandle> -->
 </ModMetadata>
