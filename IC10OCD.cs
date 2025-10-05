@@ -50,6 +50,17 @@ namespace IC10OCD
         public double value;
     }
 
+    public class ChipMemSlices
+    {
+        public ChipMemSlice[] mem_slices;
+    }
+    public class ChipMemSlice
+    {
+        public string type; // register or stack
+        public int start_addr;
+        public double[] values;
+    }
+
     [StationeersMod("IC10OCD", "IC10OCD", "0.2.5499.24517.1")]
     public class IC10OCD : ModBehaviour
     {
@@ -188,6 +199,16 @@ namespace IC10OCD
                     {
                         ChipDump chipDump = JsonConvert.DeserializeObject<ChipDump>(data_text);
                         return PostIC10Dump(pathSeg[2], chipDump);
+                    }
+                    catch
+                    {
+                        return true;
+                    }
+                case "chip-mem-slices/":
+                    try
+                    {
+                        ChipMemSlices chipMemSlices = JsonConvert.DeserializeObject<ChipMemSlices>(data_text);
+                        return PostIC10MemSlice(pathSeg[2], chipMemSlices.mem_slices);
                     }
                     catch
                     {
@@ -389,8 +410,53 @@ namespace IC10OCD
             if (filteredChips.Count() == 1)
             {
                 var chip = filteredChips.First();
-                Traverse.Create(chip).Field("_Stack").SetValue(chipDump.stack);
-                Traverse.Create(chip).Field("_Register").SetValue(chipDump.registers);
+                if (chipDump.stack.Length == 512)
+                {
+                    Traverse.Create(chip).Field("_Stack").SetValue(chipDump.stack);
+                }
+                if (chipDump.stack.Length == 18)
+                {
+                    Traverse.Create(chip).Field("_Register").SetValue(chipDump.registers);
+                }
+                return false;
+            }
+            else
+                return true;
+        }
+
+        bool PostIC10MemSlice(string refId, ChipMemSlice[] chipMemSlices)
+        {
+            var chips = FindObjectsOfType<ProgrammableChip>();
+            Debug.LogWarning("RefId: " + refId);
+            var filteredChips = chips.Where(chip => chip.ReferenceId.ToString() == refId);
+            if (filteredChips.Count() == 1)
+            {
+                var chip = filteredChips.First();
+                foreach (var chipMemSlice in chipMemSlices)
+                {
+                    if (chipMemSlice.type == "stack")
+                    {
+                        int start_addr = chipMemSlice.start_addr;
+                        for (int i = 0; i < chipMemSlice.values.Length; i++)
+                        {
+                            if (start_addr + i >= 512)
+                                break;
+                            chip.WriteMemory(start_addr + i, chipMemSlice.values[i]);
+                        }
+                    }
+                    else if (chipMemSlice.type == "register")
+                    {
+                        double[] registers = Traverse.Create(chip).Field("_Registers").GetValue() as double[];
+                        int start_addr = chipMemSlice.start_addr;
+                        for (int i = 0; i < chipMemSlice.values.Length; i++)
+                        {
+                            if (start_addr + i >= 18)
+                                break;
+                            registers[start_addr + i] = chipMemSlice.values[i];
+                        }
+                        Traverse.Create(chip).Field("_Register").SetValue(registers);
+                    }
+                }
                 return false;
             }
             else
