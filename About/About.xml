@@ -10,7 +10,8 @@
 	  See: https://github.com/StationeersLaunchPad/StationeersLaunchPad 
 	  [img]https://i.imgur.com/c3qYm69.png[/img]
 
-        This mod runs a Httplistener along side the game providing a few endpoints to retrive information on the ic10 chips present in the game.
+        This mod runs a Httplistener along side the game providing a few endpoints to retrive information on the ic10 chips present in the game. 
+        This mod does not include a way to interact with this listener, you will need to use an extension or plugin for you favourite text editor to get the most out of this.
         
         GET endpoints:
         "list-chips"
@@ -22,6 +23,7 @@
 
         POST endpoints:
         "chip-dump/{refid}"
+        "chip-mem-slices/{refid}"
         "chip-code/{refid}"
         "toggle-chip-power/{refid}"
         "chip-mem/{refid}/{register | stack}/{addr}"
@@ -62,6 +64,17 @@
             number value;
         }
 
+        chip-mem-slices
+        {
+            chip-mem-slice[] mem_slices;
+        }
+        chip-mem-slice
+        {
+            string type; // register or stack
+            number start_addr;
+            number[] values;
+        }
+
     GitHub: https://github.com/vespinian/ic10ocd
   </Description>
   <!-- Ingame Description using TMP tags for Workshop menu -->
@@ -82,6 +95,7 @@ POST endpoints:
 "chip-code/{refid}"
 "toggle-chip-power/{refid}"
 "chip-mem/{refid}/{register | stack}/{addr}"
+"chip-mem-slices/{refid}"
 ]]>
   </InGameDescription>
   <!-- All contents of ChangeLog should be changed for each publication for Steam workshop page -->
